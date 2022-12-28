@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
@@ -19,6 +20,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Rutas website
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
@@ -37,5 +39,11 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+
+//Rutas api
+// // const anuncios = require('./routes/api/anuncios.js')
+// app.use('/api/anuncios', require('./routes/api/anuncios.js'))
+
 
 module.exports = app;

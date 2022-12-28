@@ -1,0 +1,19 @@
+
+{
+    "anuncios": [
+        {
+          "name": "Bicicleta",
+          "sale": true,
+          "price": 230.15,
+          "foto": "bici.jpg",
+          "tags": ["lifestyle", "motor"]
+        },
+        {
+          "name": "iPhone 5",
+          "sale": false,
+          "price": 50.00,
+          "foto": "iphone.png",
+          "tags": ["lifestyle", "mobile"]
+        }
+    ]
+}
