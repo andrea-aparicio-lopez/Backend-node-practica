@@ -4,11 +4,15 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+require('./lib/connectMongoose')
+// require('./routes/api/anuncios')
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var app = express();
+
+app.locals.title = 'Nodepop'
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -23,6 +27,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Rutas website
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
+//Rutas api
+app.use('/api/anuncios', require('./routes/api/anuncios'))
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -41,9 +48,7 @@ app.use(function(err, req, res, next) {
 });
 
 
-//Rutas api
-// // const anuncios = require('./routes/api/anuncios.js')
-// app.use('/api/anuncios', require('./routes/api/anuncios.js'))
+
 
 
 module.exports = app;

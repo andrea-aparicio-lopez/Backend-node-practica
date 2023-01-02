@@ -16,6 +16,7 @@ async function initAnuncios() {
 }
 
 async function main(){
+    console.log('Por aqui pasa')
     const proceed = await confirmProceed('¿Borrar base de datos?');
     if(!proceed){
         process.exit();
@@ -34,8 +35,8 @@ function confirmProceed(question){
         });
         interface.question(question, answer => {
             interface.close();
-            if(respuesta.toLowerCase() === 'si' || respuesta.toLowerCase() === 'yes' 
-            || respuesta.toLowerCase() === 's' || respuesta.toLowerCase() === 'y'){
+            if(answer.toLowerCase() === 'si' || answer.toLowerCase() === 'yes' 
+            || answer.toLowerCase() === 's' || answer.toLowerCase() === 'y'){
                 resolve(true);
                 return;
             }
