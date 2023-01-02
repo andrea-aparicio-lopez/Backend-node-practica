@@ -10,5 +10,14 @@ const anuncioSchema = mongoose.Schema({
     tags: [String]
 })
 
+// en filters -> name, sale, price y tag
+// sort por precio?
+anuncioSchema.statics.filter = function(filters, pageNum, elementsToDisplay) {
+    const query = Anuncio.find(filters)
+    query.skip(pageNum * elementsToDisplay)
+    query.limit(elementsToDisplay)
+    return query.exec()
+}
+
 const Anuncio = mongoose.model('Anuncio', anuncioSchema)
 module.exports = Anuncio;
