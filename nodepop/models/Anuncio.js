@@ -16,6 +16,7 @@ anuncioSchema.statics.filter = function(filters, pageNum, elementsToDisplay) {
     const query = Anuncio.find(filters)
     query.skip(pageNum * elementsToDisplay)
     query.limit(elementsToDisplay)
+    //console.log(query)
     return query.exec()
 }
 
