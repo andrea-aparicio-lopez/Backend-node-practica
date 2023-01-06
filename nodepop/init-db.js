@@ -1,6 +1,7 @@
 'use strict';
 
 const readline = require('readline');
+const fs = require('fs')
 
 const Anuncio = require('./models/Anuncio.js')
 
@@ -9,8 +10,9 @@ async function initAnuncios() {
     const result = await Anuncio.deleteMany();
     console.log(`Se han borrado ${result.deletedCount} anuncios`);
 
-    // Anuncios iniciales
-    const anunciosIniciales = require('./anunciosIniciales.json')
+    // Cargo los anuncios iniciales
+    // const anunciosIniciales = require('./anunciosIniciales.json')
+    const anunciosIniciales = JSON.parse(fs.readFileSync('./anunciosIniciales.json', 'utf-8'))
     const inserted = await Anuncio.insertMany(anunciosIniciales)
     console.log(`Creados ${inserted.length} anuncios`)
 }

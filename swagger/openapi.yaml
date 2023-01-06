@@ -1,0 +1,217 @@
+openapi: 3.0.3
+info:
+  title: Swagger Petstore - OpenAPI 3.0
+  description: |-
+    Este es el APi de acceso al servidor de Nodepop de la práctica KeepCoding
+
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: apiteam@swagger.io
+  version: 1.0.0
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: http://locahost:3000/api/
+tags:
+  - name: anuncio
+    description: API CRUD de anuncios
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+paths:
+  /anuncios:
+    post:
+      tags:
+        - anuncio
+      summary: Añade un nuevo Anuncio
+      description: Añade un Anuncio nuevo a la base de datos
+      operationId: addAnuncio
+      requestBody:
+        description: Crea un Anuncio nuevo
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Anuncio'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Anuncio'          
+        '405':
+          description: Invalid input
+    get:
+      tags:
+        - anuncio
+      summary: Devuelve los anuncios que coinciden con los filtros de búsqueda
+      description: Si no se envía nada en la query string, encuentra todos los anuncios registrados en la base de datos
+      operationId: findAnuncios
+      parameters:
+        - name: nPage
+          in: query
+          description: Número de página (empezando por 0)
+          required: true
+          schema:
+            type: integer
+        - name: nElements
+          in: query
+          description: Número de elementos a mostrar por página
+          required: true
+          schema:
+            type: integer
+        - name: isSale
+          in: query
+          description: Filtra en función de si el artículo se vende o se compra
+          required: false
+          schema:
+            type: boolean
+        - name: name
+          in: query
+          description: Filtra por nombre del artículo
+          required: false
+          schema:
+            type: string
+        - name: maxPrice
+          in: query
+          description: Filtra por precio máximo
+          required: false
+          schema:
+            type: number
+        - name: minPrice
+          in: query
+          description: Filtra por precio mínimo
+          required: false
+          schema:
+            type: number
+        - name: tags
+          in: query
+          description: Filtra por tags de anuncio
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Anuncio'          
+        '400':
+          description: Invalid status value  
+  /anuncios/{id}:
+    get:
+      tags:
+        - anuncio
+      summary: Encuentra un anuncio por ID
+      description: Devuelve un solo anuncio
+      operationId: getAnunciioById
+      parameters:
+        - name: id
+          in: path
+          description: ID del Anuncio a devolver
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Anuncio'          
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Anuncio not found
+    put:
+      tags:
+        - anuncio
+      summary: Actaliza un anuncio existente
+      description: Actualiza un anuncio por un ID
+      operationId: updateAnuncio
+      requestBody:
+        description: Actualiza un anuncio existente Anuncio
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Anuncio'
+        required: true
+      parameters:
+      - name: id
+        in: path
+        description: ID del Anuncio a actualizar
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Anuncio'          
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Anuncio not found
+          
+    delete:
+      tags:
+        - anuncio
+      summary: Borra un anuncio
+      description: Borra un anuncio por ID
+      operationId: deleteAnuncio
+      parameters:
+        - name: id
+          in: path
+          description: ID del anuncio a borrar
+          required: true
+          schema:
+            type: string
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Anuncio not found
+
+components:
+  schemas:
+    Anuncio:
+      required:
+        - name
+        - image
+        - price
+        - sale
+        - tags
+      type: object
+      properties:
+        name:
+          type: string
+          example: Bicicleta
+        image:
+          type: string
+          example: bici.jpg
+        tags:
+          type: array
+          items: {}
+          example: ["lifestyle", "motor"]
+        sale:
+          type: boolean
+          description: True for sale, False for purchase
+        price:
+          type: number
+          example: 250
+  requestBodies:
+    Anuncio:
+      description: Anuncio object that needs to be added
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Anuncio'

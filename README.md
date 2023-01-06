@@ -1,5 +1,9 @@
 # Nodepop - Práctica backend con node
 
+La documentación de este API está incluida en los documentos openapi.yaml y openapi.json
+
+
+
 Deploy:
 
 ```sh

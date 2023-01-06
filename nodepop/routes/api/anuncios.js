@@ -3,8 +3,36 @@
 const express = require('express')
 const createError = require('http-errors')
 const Anuncio = require('../../models/Anuncio')
+// const validators = require('../../utils/validators')
 
+// const validateTags = validators.validateTags
 const router = express.Router()
+
+let regexId = /[0-9A-Fa-f]{24}/
+
+
+function validateTags(tags) {
+    const tagList = ["work", "lifestyle", "mobile", "motor"]
+    let isValid = true
+    // tags.forEach(tag => {
+    //     if(!(tag in tagList)) {
+    //         isValid = false
+    //     }
+    // });
+    // return isValid
+
+    // for(let tag of tags){
+    //     if(!(tag in tagList)){
+    //         isValid = false
+    //         break
+    //     }
+    // }
+    // return isValid
+
+    return tagList.containsAll(tags);
+}
+
+
 
 // GET api/anuncios
 router.get('/', async (req, res, next) => {
@@ -52,7 +80,15 @@ router.get('/', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
     try {
         const id = req.params.id
+        // compruebo si el id es válido
+        if(!id.match(regexId) || id.length !== 24){
+            return next(createError(400))
+        }
         const anuncio = await Anuncio.findById(id)
+        if(!anuncio){
+            return next(createError(404))
+        }
+
         res.json({result: anuncio})
         
     }catch(err) {
@@ -66,11 +102,19 @@ router.post('/', async (req, res, next) => {
     try{
         const anuncioData = req.body;
         const anuncio = new Anuncio(anuncioData)
+        // const tags = anuncio.tags
+
+        // const isValid = validateTags(tags)
+        if(!validateTags(anuncio.tags)){
+            console.log('Por favor, introduce tags válidos')
+            return next(createError(400))
+        }
         await anuncio.save()
 
         res.json({result : anuncio})
 
     }catch(err) {
+        console.log(err)
         next(err)
     }
 })
@@ -82,8 +126,17 @@ router.put('/:id', async (req, res, next) => {
         const id = req.params.id;
         const anuncioData = req.body;
 
+        // Compruebo si el id es válido. Si no lo es, devuelvo un 400
+        if(!id.match(regexId) || id.length !== 24){
+            return next(createError(400))
+        }
+
         const anuncioUpdated = await Anuncio.findByIdAndUpdate(id, anuncioData, {new: true });
 
+        // Si no encuentro el anuncio, devuelvo un 404
+        if(!anuncioUpdated){
+            return next(createError(404))
+        }
         res.json({result: anuncioUpdated})
 
     }catch(err) {
@@ -96,7 +149,12 @@ router.put('/:id', async (req, res, next) => {
 router.delete('/:id', async (req, res, next) => {
     try {
         const id = req.params.id
-        // const anuncio = await Anuncio.findByIdAndDelete(id)
+
+        // Compruebo si el id es válido. Si no lo es, devuelvo un 400
+        if(!id.match(regexId) || id.length !== 24){
+            return next(createError(400))
+        }
+
         const anuncio = await Anuncio.findById(id)
         if(!anuncio){
             return next(createError(404))

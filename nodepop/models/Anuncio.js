@@ -2,15 +2,26 @@
 
 const mongoose = require('mongoose')
 
+// Encontrar la manera de validar los tags desde el esquema
+// const tagSchema = mongoose.Schema({
+//     type: String,
+//     enum: {
+//         values: ["work", "lifestyle", "mobile", "motor"],
+//         message: '{VALUE} is not valid'
+//     }
+// })
+
 const anuncioSchema = mongoose.Schema({
     name: String,
     sale: Boolean,
     price: Number,
     image: String,
-    tags: [String]
-})
+    tags: [String],
+}, 
+{versionKey: false}
+)
 
-// en filters -> name, sale, price y tag
+
 // sort por precio?
 anuncioSchema.statics.filter = function(filters, pageNum, elementsToDisplay) {
     const query = Anuncio.find(filters)
