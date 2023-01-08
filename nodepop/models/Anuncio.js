@@ -22,7 +22,6 @@ const anuncioSchema = mongoose.Schema({
 )
 
 
-// sort por precio?
 anuncioSchema.statics.filter = function(filters, pageNum, elementsToDisplay, sortByPrice) {
     const query = Anuncio.find(filters)
     query.skip(pageNum * elementsToDisplay)
