@@ -36,7 +36,11 @@ router.get('/', async (req, res, next) => {
        const pageNum = req.query.nPage;                // api/anuncios?nPage=<number>
        const elementsToDisplay = req.query.nElements;  // api/anuncios?nElements=<number>
 
-       const sortByPrice = req.query.sortByPrice;
+       const sortByPrice = req.query.sortByPrice;   // api/anuncios?sortByPrice=<1 ó -1>
+
+       if(!pageNum || !elementsToDisplay){
+        return next(createError(400, "Indica la página y nº de elementos a mostrar"))
+       }
 
        const filters = {}
        if(name) {
@@ -57,7 +61,7 @@ router.get('/', async (req, res, next) => {
        if(tags){
         filters.tags = { '$in': tags }
        }
-       console.log(filters)
+    //    console.log(filters)
 
        const anuncios = await Anuncio.filter(filters, pageNum, elementsToDisplay, sortByPrice)
        res.json({results: anuncios}) 
@@ -94,12 +98,28 @@ router.post('/', async (req, res, next) => {
     try{
         const anuncioData = req.body;
         const anuncio = new Anuncio(anuncioData)
-        // const tags = anuncio.tags
 
-        // const isValid = validateTags(tags)
-        if(!validateTags(anuncio.tags)){
-            return next(createError(400, "Tags no válidos"))
+        // Valido el input
+        if(!anuncio.name){
+            return next(createError(400, "Requerido: name"))
         }
+        if(!anuncio.price){
+            return next(createError(400, "Requerido: price"))
+        }
+        if(!anuncio.sale && anuncio.sale !== false){
+            return next(createError(400, "Requerido: sale"))
+        }
+        if(!anuncio.image){
+            anuncio.image = `./images/${anuncio.name.toLowerCase()}.jpg'`
+        }
+        if(!anuncio.tags){
+            return next(createError(400, "Requerido: al menos un tag"))
+        }
+        if(!validateTags(anuncio.tags)){
+            return next(createError(400, "Tags no válidos. Tags permitidos: 'work', 'lifestyle', 'mobile', 'motor'"))
+        }
+
+        // Si el input es válido, guardo el anuncio
         await anuncio.save()
 
         res.json({result : anuncio})

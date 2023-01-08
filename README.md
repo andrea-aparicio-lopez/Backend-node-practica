@@ -1,7 +1,8 @@
 # Nodepop - Práctica backend con node
 
-La documentación de este API está incluida en los documentos openapi.yaml y openapi.json
-
+## Documentación del API
+La documentación está en './documentacion/nodepop.yaml'
+Se puede importar con Postman o Swagger
 
 
 Deploy:

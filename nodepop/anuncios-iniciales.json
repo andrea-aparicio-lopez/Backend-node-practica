@@ -4,42 +4,42 @@
           "name": "Bicicleta",
           "sale": true,
           "price": 230.15,
-          "foto": "bici.jpg",
+          "image": "./images/bici.jpg",
           "tags": ["lifestyle", "motor"]
         },
         {
           "name": "iPhone 5",
           "sale": false,
           "price": 50.00,
-          "foto": "iphone.jpg",
+          "image": "./images/iphone.jpg",
           "tags": ["mobile"]
         },
         {
           "name": "Guitarra",
           "sale": true,
           "price": 100.00,
-          "foto": "guitarra.jpg",
+          "image": "./images/guitarra.jpg",
           "tags": ["lifestyle", "work"]
         },
         {
           "name": "Libro",
           "sale": true,
           "price": 20.00,
-          "foto": "libro.jpg",
+          "image": "./images/libro.jpg",
           "tags": ["lifestyle"]
         },
         {
           "name": "Moto",
           "sale": true,
           "price": 500.00,
-          "foto": "moto.jpg",
+          "image": "./images/moto.jpg",
           "tags": ["motor", "lifestyle"]
         },
         {
           "name": "Portatil",
           "sale": false,
           "price": 240.00,
-          "foto": "portatil.png",
+          "image": "./images/portatil.png",
           "tags": ["mobile", "work", "lifestyle"]
         }
 ]

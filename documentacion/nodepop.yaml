@@ -1,24 +1,17 @@
 openapi: 3.0.3
 info:
-  title: Nodepop API - OpenAPI 3.0
+  title: Nodepop API
   description: |-
     Este es el API de acceso al servidor de Nodepop de la práctica KeepCoding
 
-  termsOfService: http://swagger.io/terms/
   contact:
-    email: apiteam@swagger.io
+    email: apariciolopez.andrea@gmail.com
   version: 1.0.0
-externalDocs:
-  description: Find out more about Swagger
-  url: http://swagger.io
 servers:
-  - url: http://locahost:3000/api/
+  - url: http://locahost:3000/api
 tags:
   - name: anuncio
     description: API CRUD de anuncios
-    externalDocs:
-      description: Find out more
-      url: http://swagger.io
 paths:
   /anuncios:
     post:
@@ -28,7 +21,7 @@ paths:
       description: Añade un Anuncio nuevo a la base de datos
       operationId: addAnuncio
       requestBody:
-        description: Crea un Anuncio nuevo
+        description: Crea un Anuncio nuevo con los atributos name, sale, price y tags requeridos. La imagen se añade automáticamente
         content:
           application/json:
             schema:
@@ -56,36 +49,42 @@ paths:
           required: true
           schema:
             type: integer
+          example: 0
         - name: nElements
           in: query
           description: Número de elementos a mostrar por página
           required: true
           schema:
             type: integer
+          example: 10
         - name: isSale
           in: query
           description: Filtra en función de si el artículo se vende o se compra
           required: false
           schema:
             type: boolean
+          example: true
         - name: name
           in: query
           description: Filtra por nombre del artículo
           required: false
           schema:
             type: string
+          example: 'Bicicleta'
         - name: maxPrice
           in: query
           description: Filtra por precio máximo
           required: false
           schema:
             type: number
+          example: 300
         - name: minPrice
           in: query
           description: Filtra por precio mínimo
           required: false
           schema:
             type: number
+          example: 50
         - name: tags
           in: query
           description: Filtra por tags de anuncio
@@ -94,12 +93,19 @@ paths:
             type: array
             items:
               type: string
+              enum:
+                - lifestyle
+                - mobile
+                - work
+                - motor
+          example: ["lifestyle", "motor"]
         - name: sortByPrice
           in: query
           description: Ordena los anuncios por precio (1 ascendente, -1 descendente)
           required: false
           schema:
             type: number
+          example: 1
       responses:
         '200':
           description: successful operation
@@ -125,6 +131,7 @@ paths:
           required: true
           schema:
             type: string
+          example: "63ba15db1c196f3afb0050c1"
       responses:
         '200':
           description: successful operation
@@ -156,6 +163,7 @@ paths:
         required: true
         schema:
           type: string
+        example: "63ba15db1c196f3afb0050c1"
       responses:
         '200':
           description: Successful operation
@@ -181,6 +189,7 @@ paths:
           required: true
           schema:
             type: string
+          example: "63ba15db1c196f3afb0050c1"
       responses:
         '400':
           description: Invalid ID supplied
