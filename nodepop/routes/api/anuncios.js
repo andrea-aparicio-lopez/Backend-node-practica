@@ -14,22 +14,12 @@ let regexId = /[0-9A-Fa-f]{24}/
 function validateTags(tags) {
     const tagList = ["work", "lifestyle", "mobile", "motor"]
     let isValid = true
-    // tags.forEach(tag => {
-    //     if(!(tag in tagList)) {
-    //         isValid = false
-    //     }
-    // });
-    // return isValid
-
-    // for(let tag of tags){
-    //     if(!(tag in tagList)){
-    //         isValid = false
-    //         break
-    //     }
-    // }
-    // return isValid
-
-    return tagList.containsAll(tags);
+    tags.forEach(tag => {
+        if(isValid && tagList.indexOf(tag) ===-1 ) {
+            isValid = false
+        }
+    });
+    return isValid
 }
 
 
@@ -106,8 +96,7 @@ router.post('/', async (req, res, next) => {
 
         // const isValid = validateTags(tags)
         if(!validateTags(anuncio.tags)){
-            console.log('Por favor, introduce tags válidos')
-            return next(createError(400))
+            return next(createError(400, "Tags no válidos"))
         }
         await anuncio.save()
 

@@ -1,4 +1,3 @@
-'use strict';
 
 const readline = require('readline');
 const fs = require('fs')
@@ -11,14 +10,13 @@ async function initAnuncios() {
     console.log(`Se han borrado ${result.deletedCount} anuncios`);
 
     // Cargo los anuncios iniciales
-    // const anunciosIniciales = require('./anunciosIniciales.json')
-    const anunciosIniciales = JSON.parse(fs.readFileSync('./anunciosIniciales.json', 'utf-8'))
+    // const anunciosIniciales = require('./anuncios-iniciales.json')
+    const anunciosIniciales = JSON.parse(fs.readFileSync('./anuncios-iniciales.json', 'utf-8'))
     const inserted = await Anuncio.insertMany(anunciosIniciales)
     console.log(`Creados ${inserted.length} anuncios`)
 }
 
 async function main(){
-    console.log('Por aqui pasa')
     const proceed = await confirmProceed('¿Borrar base de datos?');
     if(!proceed){
         process.exit();
@@ -32,7 +30,7 @@ async function main(){
 function confirmProceed(question){
     return new Promise((resolve, reject) => {
         const interface = readline.createInterface({
-            input: rpocess.stdin,
+            input: process.stdin,
             output: process.stdout
         });
         interface.question(question, answer => {
