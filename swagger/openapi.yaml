@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Nodepop API - OpenAPI 3.0
   description: |-
-    Este es el APi de acceso al servidor de Nodepop de la práctica KeepCoding
+    Este es el API de acceso al servidor de Nodepop de la práctica KeepCoding
 
   termsOfService: http://swagger.io/terms/
   contact:
@@ -94,6 +94,12 @@ paths:
             type: array
             items:
               type: string
+        - name: sortByPrice
+          in: query
+          description: Ordena los anuncios por precio (1 ascendente, -1 descendente)
+          required: false
+          schema:
+            type: number
       responses:
         '200':
           description: successful operation
