@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: Swagger Petstore - OpenAPI 3.0
+  title: Nodepop API - OpenAPI 3.0
   description: |-
     Este es el APi de acceso al servidor de Nodepop de la práctica KeepCoding
 

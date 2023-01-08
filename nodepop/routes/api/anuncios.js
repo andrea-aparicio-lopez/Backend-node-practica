@@ -5,12 +5,12 @@ const createError = require('http-errors')
 const Anuncio = require('../../models/Anuncio')
 // const validators = require('../../utils/validators')
 
-// const validateTags = validators.validateTags
+// const validateTags = validators.validateTags()
 const router = express.Router()
 
 let regexId = /[0-9A-Fa-f]{24}/
 
-
+// funcion para validar tags. No he conseguido importarla del fichero "validators.js"
 function validateTags(tags) {
     const tagList = ["work", "lifestyle", "mobile", "motor"]
     let isValid = true
@@ -36,6 +36,8 @@ router.get('/', async (req, res, next) => {
        const pageNum = req.query.nPage;                // api/anuncios?nPage=<number>
        const elementsToDisplay = req.query.nElements;  // api/anuncios?nElements=<number>
 
+       const sortByPrice = req.query.sortByPrice;
+
        const filters = {}
        if(name) {
         filters.name = name
@@ -57,7 +59,7 @@ router.get('/', async (req, res, next) => {
        }
        console.log(filters)
 
-       const anuncios = await Anuncio.filter(filters, pageNum, elementsToDisplay)
+       const anuncios = await Anuncio.filter(filters, pageNum, elementsToDisplay, sortByPrice)
        res.json({results: anuncios}) 
        
     }catch(err) {
